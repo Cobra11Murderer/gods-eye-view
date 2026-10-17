@@ -1,5 +1,6 @@
 import * as Cesium from 'cesium';
 import { governorRequestRender } from '../renderGovernor.js';
+import { msg } from '../i18n/index.js';
 
 /**
  * NOAA SWPC's OVATION aurora forecast: a ~1° global grid of aurora
@@ -35,15 +36,11 @@ export function createAuroraLayer() {
   async function refresh() {
     try {
       const response = await fetch(API_URL, { cache: 'no-store' });
-      if (!response.ok) {
-        _error = `NOAA SWPC HTTP ${response.status}`;
-        return false;
-      }
+      if (!response.ok) throw new Error(`NOAA SWPC HTTP ${response.status}`);
       const payload = await response.json();
       const coords = payload?.coordinates;
       if (!Array.isArray(coords) || !coords.length) {
-        _error = 'Malformed NOAA SWPC response';
-        return false;
+        throw new Error('Malformed NOAA SWPC response');
       }
 
       const visible = [];
@@ -79,7 +76,7 @@ export function createAuroraLayer() {
       return true;
     } catch (err) {
       console.warn('[Data:Aurora] Fetch error:', err);
-      _error = 'NOAA SWPC network error';
+      _error = err instanceof TypeError ? msg('NOAA SWPC network error') : err.message;
       return false;
     }
   }

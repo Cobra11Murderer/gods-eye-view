@@ -1,5 +1,6 @@
 import * as Cesium from 'cesium';
 import { governorRequestRender } from '../renderGovernor.js';
+import { msg } from '../i18n/index.js';
 
 /**
  * Live volcano alerts from USGS's HANS (Hazard Alert Notification System).
@@ -89,14 +90,10 @@ export function createVolcanoesLayer() {
   async function refresh() {
     try {
       const response = await fetch(API_URL, { cache: 'no-store' });
-      if (!response.ok) {
-        _error = `USGS HANS HTTP ${response.status}`;
-        return false;
-      }
+      if (!response.ok) throw new Error(`USGS HANS HTTP ${response.status}`);
       const alerts = await response.json();
       if (!Array.isArray(alerts)) {
-        _error = 'Malformed USGS HANS response';
-        return false;
+        throw new Error('Malformed USGS HANS response');
       }
 
       const nextEntities = [];
@@ -155,7 +152,7 @@ export function createVolcanoesLayer() {
       return true;
     } catch (err) {
       console.warn('[Data:Volcanoes] Fetch error:', err);
-      _error = 'USGS HANS network error';
+      _error = err instanceof TypeError ? msg('USGS HANS network error') : err.message;
       return false;
     }
   }

@@ -555,9 +555,9 @@ test('a globe flight without callbacks still flies (both hooks are optional)', (
 test('geocoded Location branches forward the resolved-navigation ownership hook', () => {
   const source = fs.readFileSync(new URL('./locations.js', import.meta.url), 'utf8');
   // Scoped to the geocode-dependent branches only — the keyless coordinate
-  // short-circuit above the apiKey check is a separate, non-geocoded path
+  // short-circuit above the placeSearch call is a separate, non-geocoded path
   // (covered by its own test) and is intentionally excluded here.
-  const searchStart = source.indexOf('const apiKey = window.__GOOGLE_MAPS_API_KEY__');
+  const searchStart = source.indexOf('const outcome = await placeSearch.geocode(');
   const searchEnd = source.indexOf('function placesViewportToBounds', searchStart);
   const search = source.slice(searchStart, searchEnd);
   assert.equal(

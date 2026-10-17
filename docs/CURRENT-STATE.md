@@ -4675,7 +4675,7 @@ and unreachable upstream (502/504) separately from road geometry.
   file (the ~40 volcanoes USGS observatories actually monitor). An alert
   for an unrecognized name is logged once per name and dropped, never
   plotted at a guessed position.
-- All three are registered in `src/data/localLayers.js` (client) and
+- All three are registered in `src/app/constructCatalog.js` (client) and
   `server/providers/local.js` (server) alongside the existing layers.
 
 ### Voice Control (June 2026)

@@ -1,3 +1,5 @@
+import { msg } from '../i18n/index.js';
+
 /**
  * Red Ops Style — Red-lit night-operations monochrome
  * Submarine/command-bunker red lighting: preserves low-light vision while
@@ -6,9 +8,9 @@
 export const redOpsShader = {
   name: 'redops',
   uniforms: {
-    tintStrength: { default: 0.85, min: 0, max: 1, label: 'Tint' },
-    contrastAmt: { default: 1.15, min: 0, max: 2, label: 'Contrast' },
-    vignetteAmt: { default: 0.55, min: 0, max: 1, label: 'Vignette' },
+    tintStrength: { default: 0.85, min: 0, max: 1, label: msg('Tint') },
+    contrastAmt: { default: 1.15, min: 0, max: 2, label: msg('Contrast') },
+    vignetteAmt: { default: 0.55, min: 0, max: 1, label: msg('Vignette') },
   },
   fragmentShader: /* glsl */ `
     uniform sampler2D colorTexture;
